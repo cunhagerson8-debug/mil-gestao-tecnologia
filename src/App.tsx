@@ -133,7 +133,14 @@ setMilAiMessages((prev) => [
             <a href="#contato">Contato</a>
           </nav>
 
-          <a href="#projeto" className="nav-cta">
+          <a
+            href="#projeto"
+            className="nav-cta"
+            onClick={(e) => {
+              e.preventDefault()
+              setIsMilAiOpen(true)
+            }}
+          >
             Crie seu projeto
           </a>
         </div>
@@ -173,7 +180,14 @@ setMilAiMessages((prev) => [
             </p>
 
             <div className="hero-actions">
-              <a href="#projeto" className="btn-primary">
+              <a
+                href="#projeto"
+                className="btn-primary"
+                onClick={(e) => {
+                  e.preventDefault()
+                  setIsMilAiOpen(true)
+                }}
+              >
                 Transforme sua ideia em um projeto →
               </a>
 
@@ -387,7 +401,7 @@ setMilAiMessages((prev) => [
         <div className="project-media">
           <span className="project-category">INTELIGÊNCIA ARTIFICIAL</span>
           <div className="project-symbol">MIL IA</div>
-          <button className="project-play" type="button" aria-label="Assistir apresentação">
+          <button className="project-play" type="button" aria-hidden="true" disabled>
             ▶
           </button>
         </div>
@@ -399,7 +413,15 @@ setMilAiMessages((prev) => [
             Plataforma inteligente para gestão contábil, automação,
             diagnóstico empresarial e operação assistida por IA.
           </p>
-          <a href="#projeto">Conheça o projeto →</a>
+          <a
+            href="#projeto"
+            onClick={(e) => {
+              e.preventDefault()
+              setIsMilAiOpen(true)
+            }}
+          >
+            Conheça o projeto →
+          </a>
         </div>
       </article>
 
@@ -407,7 +429,7 @@ setMilAiMessages((prev) => [
         <div className="project-media">
           <span className="project-category">GESTÃO OPERACIONAL</span>
           <div className="project-symbol">OPS</div>
-          <button className="project-play" type="button" aria-label="Assistir apresentação">
+          <button className="project-play" type="button" aria-hidden="true" disabled>
             ▶
           </button>
         </div>
@@ -419,7 +441,7 @@ setMilAiMessages((prev) => [
             Gestão integrada de empresas, equipes, dispositivos,
             operações de campo, documentos e processos.
           </p>
-          <a href="#projeto">Conheça o projeto →</a>
+          <a href="#solucoes">Conheça o projeto →</a>
         </div>
       </article>
 
@@ -427,7 +449,7 @@ setMilAiMessages((prev) => [
         <div className="project-media">
           <span className="project-category">APLICATIVOS</span>
           <div className="project-symbol">APP</div>
-          <button className="project-play" type="button" aria-label="Assistir apresentação">
+          <button className="project-play" type="button" aria-hidden="true" disabled>
             ▶
           </button>
         </div>
@@ -439,7 +461,18 @@ setMilAiMessages((prev) => [
             Aplicativos personalizados conectando empresas,
             clientes, equipes, serviços e inteligência artificial.
           </p>
-          <a href="#projeto">Veja nossas soluções →</a>
+          <a
+            href="#solucoes"
+            onClick={(e) => {
+              e.preventDefault()
+              const target = document.getElementById('solucoes')
+              if (target) {
+                target.scrollIntoView({ behavior: 'smooth' })
+              }
+            }}
+          >
+            Veja nossas soluções →
+          </a>
         </div>
       </article>
 
@@ -447,7 +480,15 @@ setMilAiMessages((prev) => [
 
     <div className="projects-more">
       <span>● NOVOS PROJETOS EM DESENVOLVIMENTO</span>
-      <a href="#projeto">Transforme sua ideia em tecnologia →</a>
+      <a
+        href="#projeto"
+        onClick={(e) => {
+          e.preventDefault()
+          setIsMilAiOpen(true)
+        }}
+      >
+        Transforme sua ideia em tecnologia →
+      </a>
     </div>
 
   </div>
