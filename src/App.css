@@ -643,6 +643,23 @@ a {
   border-radius: 16px;
   background: rgba(255, 255, 255, 0.035);
   border: 1px solid rgba(255, 255, 255, 0.07);
+
+  cursor: pointer !important;
+
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    background 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.ai-status:hover {
+  transform: translateY(-6px) scale(1.02);
+  border-color: #62e8da !important;
+  background: rgba(18, 215, 196, 0.10) !important;
+  box-shadow:
+    0 16px 38px rgba(0, 0, 0, 0.35),
+    0 0 28px rgba(18, 215, 196, 0.22);
 }
 
 .ai-status span {
@@ -1080,4 +1097,232 @@ a {
   .project-form {
     padding: 22px;
   }
+
+
+}
+
+/* =========================
+   MIL IA - PAINEL FLUTUANTE
+========================= */
+
+.mil-ai-panel {
+  position: fixed;
+  right: 28px;
+  bottom: 110px;
+  width: 380px;
+  max-height: calc(100vh - 140px);
+display: flex;
+flex-direction: column;
+  max-width: calc(100vw - 32px);
+  background: rgba(8, 18, 28, 0.96);
+  border: 1px solid rgba(79, 224, 255, 0.22);
+  border-radius: 22px;
+  box-shadow:
+    0 25px 70px rgba(0, 0, 0, 0.45),
+    0 0 40px rgba(0, 184, 255, 0.08);
+  backdrop-filter: blur(18px);
+  overflow: hidden;
+  z-index: 9998;
+}
+
+.mil-ai-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: linear-gradient(
+    135deg,
+    rgba(0, 196, 255, 0.08),
+    rgba(0, 255, 204, 0.04)
+  );
+}
+
+.mil-ai-panel-header div {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.mil-ai-panel-header strong {
+  color: #ffffff;
+  font-size: 16px;
+  letter-spacing: 0.04em;
+}
+
+.mil-ai-panel-header span {
+  color: #7fdff5;
+  font-size: 12px;
+}
+
+.mil-ai-panel-header button {
+  width: 34px;
+  height: 34px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.mil-ai-panel-body {
+  padding: 24px 20px 26px;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.mil-ai-online {
+  display: inline-block;
+  margin-bottom: 16px;
+  color: #53f3c3;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.mil-ai-panel-body h3 {
+  margin: 0 0 12px;
+  color: #ffffff;
+  font-size: 24px;
+  line-height: 1.2;
+}
+
+.mil-ai-panel-body p {
+  margin: 0;
+  color: #aebdca;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+@media (max-width: 600px) {
+  .mil-ai-panel {
+    right: 16px;
+    bottom: 100px;
+    width: calc(100vw - 32px);
+  }
+}
+/* =========================
+   MIL IA - CAMPO DE CHAT
+========================= */
+
+.mil-ai-chat-input {
+  margin-top: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.mil-ai-chat-input textarea {
+  width: 100%;
+  min-height: 85px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(94, 234, 212, 0.25);
+  background: rgba(255, 255, 255, 0.04);
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1.5;
+  resize: none;
+  outline: none;
+  box-sizing: border-box;
+  transition: 0.25s ease;
+}
+
+.mil-ai-chat-input textarea::placeholder {
+  color: #78909c;
+}
+
+.mil-ai-chat-input textarea:focus {
+  border-color: #5eead4;
+  background: rgba(94, 234, 212, 0.05);
+  box-shadow: 0 0 0 3px rgba(94, 234, 212, 0.08);
+}
+
+.mil-ai-chat-input button {
+  align-self: flex-end;
+  padding: 11px 22px;
+  border: 0;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #168cff, #16d1c5);
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.mil-ai-chat-input button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(22, 209, 197, 0.25);
+}
+
+/* ===== HISTÓRICO DO CHAT MIL IA ===== */
+
+.mil-ai-chat-messages {
+  width: 100%;
+  max-height: 220px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 8px 6px 8px 2px;
+  margin-top: 12px;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+
+.mil-ai-message {
+  max-width: 88%;
+  padding: 12px 14px;
+  border-radius: 14px;
+  line-height: 1.5;
+  font-size: 14px;
+  text-align: left;
+}
+
+.mil-ai-message strong {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 12px;
+}
+
+.mil-ai-message p {
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+.mil-ai-message-user {
+  align-self: flex-end;
+  background: rgba(22, 168, 255, 0.16);
+  border: 1px solid rgba(22, 168, 255, 0.35);
+}
+
+.mil-ai-message-user strong {
+  color: #56d8ff;
+}
+
+.mil-ai-message-assistant {
+  align-self: flex-start;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(94, 234, 212, 0.18);
+}
+
+.mil-ai-message-assistant strong {
+  color: #5eead4;
+}
+
+/* Barra de rolagem do chat */
+.mil-ai-chat-messages::-webkit-scrollbar {
+  width: 6px;
+}
+
+.mil-ai-chat-messages::-webkit-scrollbar-thumb {
+  background: rgba(94, 234, 212, 0.35);
+  border-radius: 10px;
 }

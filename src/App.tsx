@@ -1,7 +1,109 @@
 import './App.css'
 import logoMil from './assets/logo-mil.png'
+import { useEffect, useRef, useState } from 'react'
+import { API_BASE_URL } from './api'
 
 function App() {
+    const [isMilAiOpen, setIsMilAiOpen] = useState(false)
+    const [milAiMessage, setMilAiMessage] = useState('')
+
+const [milAiLoading, setMilAiLoading] = useState(false)
+const milAiRegistrationCompletedRef = useRef(false)
+
+const [milAiMessages, setMilAiMessages] = useState<
+  { role: 'user' | 'assistant'; text: string }[]
+>([])
+
+const milAiMessagesRef = useRef<HTMLDivElement | null>(null)
+
+useEffect(() => {
+  const chat = milAiMessagesRef.current
+
+  if (chat) {
+    chat.scrollTo({
+      top: chat.scrollHeight,
+      behavior: 'smooth',
+    })
+  }
+}, [milAiMessages, milAiLoading])
+
+const sendMilAiMessage = async () => {
+  const message = milAiMessage.trim()
+
+  if (!message || milAiLoading) return
+
+  const conversation = [
+    ...milAiMessages,
+    { role: 'user' as const, text: message },
+  ]
+
+  setMilAiMessages((prev) => [
+  ...prev,
+  { role: 'user', text: message },
+])
+
+  try {
+    setMilAiLoading(true)
+
+
+    const response = await fetch(`${API_BASE_URL}/chat`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        messages: conversation,
+        registrationCompleted: milAiRegistrationCompletedRef.current,
+      }),
+    })
+
+    const data = await response.json()
+
+    if (!response.ok) {
+      throw new Error(data?.error || 'Erro ao consultar a MIL IA.')
+    }
+
+    const cleanAnswer = (
+  data.answer || 'Não consegui gerar uma resposta.'
+).replace(/\*\*/g, '')
+
+
+
+setMilAiMessages((prev) => [
+  ...prev,
+  { role: 'assistant', text: cleanAnswer },
+])
+
+    if (data.opportunityRegistration === 'success') {
+      milAiRegistrationCompletedRef.current = true
+      setMilAiMessages((prev) => [
+        ...prev,
+        {
+          role: 'assistant',
+          text: 'Seu cadastro foi realizado com sucesso. Obrigado pelas informações.',
+        },
+      ])
+    } else if (data.opportunityRegistration === 'failed') {
+      setMilAiMessages((prev) => [
+        ...prev,
+        {
+          role: 'assistant',
+          text: 'Houve uma dificuldade para registrar seus dados. Podemos continuar o atendimento por aqui.',
+        },
+      ])
+    }
+    setMilAiMessage('')
+  } catch (error) {
+    console.error('Erro MIL IA:', error)
+    setMilAiMessages((prev) => [
+      ...prev,
+      { role: 'assistant', text: 'Não foi possível falar com a MIL IA neste momento. Tente novamente.' },
+    ])
+  } finally {
+    setMilAiLoading(false)
+  }
+}
+
   return (
     <div className="home">
       <header className="header">
@@ -19,7 +121,15 @@ function App() {
             <a href="#empresa">Empresa</a>
             <a href="#solucoes">Soluções</a>
             <a href="#produtos">Produtos</a>
-            <a href="#mil-ia">MIL IA</a>
+            <a
+  href="#mil-ia"
+  onClick={(e) => {
+    e.preventDefault()
+    setIsMilAiOpen(true)
+  }}
+>
+  MIL IA
+</a>
             <a href="#contato">Contato</a>
           </nav>
 
@@ -193,11 +303,16 @@ function App() {
 
       <div className="ai-console-body">
 
-        <div className="ai-status">
-          <span>Operação</span>
-          <strong>98%</strong>
-          <small>Normal</small>
-        </div>
+        <div
+  className="ai-status"
+  onClick={() => setIsMilAiOpen(true)}
+  role="button"
+  tabIndex={0}
+>
+  <span>Operação</span>
+  <strong>98%</strong>
+  <small>Normal</small>
+</div>
 
         <div className="ai-status">
           <span>Projetos ativos</span>
@@ -338,6 +453,104 @@ function App() {
   </div>
 </section>
       </main>
+      <div className="mil-ai-float">
+  <button
+  type="button"
+  className="mil-ai-button"
+  aria-label="Abrir MIL IA"
+  onClick={() => setIsMilAiOpen(!isMilAiOpen)}
+>
+    <span className="mil-ai-status"></span>
+
+    <div className="mil-ai-button-text">
+      <strong>MIL IA</strong>
+      <small>Consultora inteligente</small>
+    </div>
+
+    <span className="mil-ai-arrow">↗</span>
+  </button>
+</div>
+
+{isMilAiOpen && (
+  <div className="mil-ai-panel">
+    <div className="mil-ai-panel-header">
+      <div>
+        <strong>MIL IA</strong>
+        <span>Consultora Inteligente</span>
+      </div>
+
+      <button
+        type="button"
+        onClick={() => setIsMilAiOpen(false)}
+        aria-label="Fechar MIL IA"
+      >
+        ×
+      </button>
+    </div>
+
+    <div className="mil-ai-panel-body">
+      <span className="mil-ai-online">● ONLINE</span>
+
+      <h3>Olá, eu sou a MIL IA.</h3>
+
+      <p>
+        Conte o que sua empresa precisa e eu vou ajudar a transformar
+        sua ideia em um projeto de tecnologia.
+      </p>
+
+<div className="mil-ai-chat-input">
+  <textarea
+    placeholder="Digite sua mensagem para a MIL IA..."
+    rows={3}
+    value={milAiMessage}
+    onChange={(e) => setMilAiMessage(e.target.value)}
+    />
+
+  <button
+  type="button"
+  onClick={sendMilAiMessage}
+  disabled={milAiLoading}
+>
+  {milAiLoading ? 'Pensando...' : 'Enviar'}
+</button>
+
+{milAiMessages.length > 0 && (
+
+  <div
+  className="mil-ai-chat-messages"
+  ref={milAiMessagesRef}
+>
+    {milAiMessages.map((msg, index) => (
+      <div
+        key={index}
+        className={`mil-ai-message ${
+          msg.role === 'user' ? 'mil-ai-message-user' : 'mil-ai-message-assistant'
+        }`}
+      >
+        <strong>
+          {msg.role === 'user' ? 'Você' : 'MIL IA'}
+        </strong>
+        <p>{msg.text}</p>
+      </div>
+    ))}
+
+    {milAiLoading && (
+      <div className="mil-ai-message mil-ai-message-assistant">
+        <strong>MIL IA</strong>
+        <p>Pensando...</p>
+      </div>
+    )}
+
+</div>
+
+)}
+
+</div>
+
+    </div>
+  </div>
+)}
+
     </div>
   )
 }

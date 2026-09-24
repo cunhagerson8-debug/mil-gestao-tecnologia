@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "start": "node server/index.js",
     "build": "tsc -b && vite build",
+    "postinstall": "npm install --prefix server --omit=dev",
     "lint": "oxlint",
     "preview": "vite preview"
   },
