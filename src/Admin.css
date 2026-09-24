@@ -277,6 +277,56 @@
   font-size: 13px;
 }
 
+.admin-upcoming-contacts {
+  margin-bottom: 18px;
+  padding: 16px 18px;
+  border: 1px solid rgba(91, 216, 210, 0.2);
+  border-radius: 8px;
+  background: rgba(18, 29, 40, 0.68);
+}
+
+.admin-upcoming-contacts-heading h2 {
+  margin: 0 0 12px;
+  color: #ffffff;
+  font-size: 17px;
+  letter-spacing: 0;
+}
+
+.admin-upcoming-contacts-list {
+  display: grid;
+  gap: 8px;
+}
+
+.admin-upcoming-contact {
+  display: grid;
+  grid-template-columns: 100px minmax(120px, 1fr) minmax(120px, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  color: #d9e2eb;
+  font-size: 13px;
+}
+
+.admin-upcoming-contact time {
+  color: #5bd8d2;
+  font-weight: 700;
+}
+
+.admin-upcoming-contact strong {
+  color: #ffffff;
+}
+
+.admin-upcoming-contact span:not(.admin-status) {
+  color: #aebbc8;
+}
+
+.admin-upcoming-contacts-empty {
+  margin: 0;
+  color: #91a2b2;
+  font-size: 13px;
+}
+
 .admin-table-wrap {
   overflow-x: auto;
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -677,6 +727,23 @@
 
   .admin-clear-filters {
     align-self: flex-start;
+  }
+
+  .admin-upcoming-contact {
+    grid-template-columns: 1fr auto;
+    gap: 6px 12px;
+  }
+
+  .admin-upcoming-contact time,
+  .admin-upcoming-contact strong,
+  .admin-upcoming-contact span:not(.admin-status) {
+    grid-column: 1;
+  }
+
+  .admin-upcoming-contact .admin-status {
+    grid-column: 2;
+    grid-row: 1 / span 3;
+    align-self: center;
   }
 
   .admin-modal-backdrop {

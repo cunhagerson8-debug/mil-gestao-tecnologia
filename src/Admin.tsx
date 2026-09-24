@@ -156,6 +156,11 @@ function Admin() {
 
     return matchesSearch && matchesStatus
   })
+  const upcomingContacts = opportunities
+    .filter((opportunity) => opportunity.proximo_contato?.trim())
+    .sort((first, second) =>
+      (first.proximo_contato || '').localeCompare(second.proximo_contato || '')
+    )
 
   const hasActiveFilters = Boolean(searchQuery || statusFilter)
   const opportunityCounts = opportunityStatuses.reduce<Record<string, number>>(
@@ -508,6 +513,28 @@ function Admin() {
             <div className="admin-results-summary">
               Exibindo {filteredOpportunities.length} de {total} oportunidades
             </div>
+
+            <section className="admin-upcoming-contacts" aria-labelledby="admin-upcoming-contacts-title">
+              <div className="admin-upcoming-contacts-heading">
+                <h2 id="admin-upcoming-contacts-title">Próximos contatos</h2>
+              </div>
+              {upcomingContacts.length === 0 ? (
+                <p className="admin-upcoming-contacts-empty">Nenhum próximo contato agendado.</p>
+              ) : (
+                <div className="admin-upcoming-contacts-list">
+                  {upcomingContacts.map((opportunity) => (
+                    <div className="admin-upcoming-contact" key={opportunity.id}>
+                      <time dateTime={opportunity.proximo_contato || undefined}>
+                        {formatCalendarDate(opportunity.proximo_contato)}
+                      </time>
+                      <strong>{opportunity.nome || '-'}</strong>
+                      {opportunity.empresa && <span>{opportunity.empresa}</span>}
+                      <span className="admin-status">{getStatusLabel(opportunity.status) || '-'}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </section>
 
             {filteredOpportunities.length === 0 ? (
               <div className="admin-state">
